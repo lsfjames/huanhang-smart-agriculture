@@ -1,0 +1,32 @@
+name: showcase-ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required files
+        run: |
+          test -f README.md
+          test -f README_EN.md
+          test -f LICENSE
+          test -f docs/ARCHITECTURE.md
+          test -f docs/METRICS.md
+          test -f docs/LICENSES.md
+      - name: No forbidden files
+        run: |
+          set -e
+          if git ls-files | grep -E 'local_credentials|\.pt$|\.pth$|id_rsa'; then
+            echo "forbidden file tracked"; exit 1
+          fi
+      - name: Metrics honesty markers
+        run: |
+          grep -q "0.934" docs/METRICS.md
+          grep -q "0.074" docs/METRICS.md
+          grep -q "showcase" README_EN.md
