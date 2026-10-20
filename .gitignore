@@ -1,0 +1,15 @@
+# showcase repository
+.DS_Store
+Thumbs.db
+*.log
+.env
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.venv/
+# never commit weights or datasets
+*.pt
+*.pth
+*.onnx
+local_credentials.txt
